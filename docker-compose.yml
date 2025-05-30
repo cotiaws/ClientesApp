@@ -1,0 +1,25 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: clientesapp_sqlserver
+    ports:
+      - "1436:1433"
+    environment:
+      SA_PASSWORD: "Coti@2025"
+      ACCEPT_EULA: "Y"
+    networks:
+      - clientesapp-net
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:6.0
+    container_name: clientesapp_mongodb
+    ports:
+      - "27018:27017"
+    networks:
+      - clientesapp-net
+    restart: unless-stopped
+
+networks:
+  clientesapp-net:
+    driver: bridge
