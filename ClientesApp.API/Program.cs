@@ -16,6 +16,16 @@ builder.Services.AddMongoDBConfig(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("All", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 app.MapOpenApi();
@@ -26,6 +36,8 @@ app.UseSwaggerUI();
 app.MapScalarApiReference(options => {
     options.WithTheme(ScalarTheme.BluePlanet);
 });
+
+app.UseCors("All");
 
 app.UseAuthorization();
 app.MapControllers();
